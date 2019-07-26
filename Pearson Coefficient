@@ -1,0 +1,82 @@
+import fileinput
+import math
+
+lst = []
+
+for line in fileinput.input():
+    lst.append(line)
+
+M = []
+P = []
+C = []
+
+N = lst.pop(0)
+N = N.strip('\r')
+N = N.strip('\n')
+N = float(N)
+
+New_lst = []
+
+for line in lst: 
+  line = line.strip()
+  New_lst.append(line)
+
+Final_lst = []
+
+for line in New_lst:
+  temp = line.split('\t')
+  Final_lst.append(temp)
+
+for touple in Final_lst:
+  tempM = float(touple[0]) 
+  M.append(tempM)
+  tempP = float(touple[1])
+  P.append(tempP)
+  tempC = float(touple[2])
+  C.append(tempC)
+
+def a(X,Y):
+  i = 0
+  a = 0
+  while i < len(X):
+    a = a + (X[i] * Y[i])
+    i = i + 1
+  return(a)
+
+def b(X,Y):
+  bx = 0
+  by = 0
+  for x in X:
+    bx = bx + x
+  for y in Y:
+    by = by + y
+  return(by*bx)
+
+def c(vec):
+  c = 0
+  for ele in vec:
+    c = c + (ele*ele)
+  return(c)
+
+def d(vec):
+  d_sqrt = 0
+  for ele in vec:
+    d_sqrt = d_sqrt + ele
+  return((d_sqrt*d_sqrt))
+
+def Pearson(X,Y,N):
+  Num = (N*(a(X,Y))) - b(X,Y)
+  Dem_x_sqr = (N*(c(X))) - d(X)
+  Dem_x = math.sqrt(Dem_x_sqr)
+  Dem_y_sqr = (N*(c(Y))) - d(Y)
+  Dem_y = math.sqrt(Dem_y_sqr)
+  Pearson = Num / (Dem_x * Dem_y)
+  return(Pearson)
+
+MP = Pearson(M,P,N)
+PC = Pearson(P,C,N)
+CM = Pearson(C,M,N)
+
+print(round(MP,2))
+print(round(PC,2))
+print(round(CM,2))
